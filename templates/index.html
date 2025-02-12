@@ -30,7 +30,7 @@
         }
         #map {
             width: 100%;
-            height: 500px; /* Increased height for better visibility */
+            height: 200px;
             margin-top: 20px;
             border-radius: 10px;
             overflow: hidden;
@@ -72,16 +72,22 @@
             bearing: 0 // Ensure standard top-down angle
         });
 
-        // Add user location marker at Toronto initially
+        // Disable scroll zoom initially but allow manual zooming
+        map.scrollZoom.disable();
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Add a pulsing red marker at the default location
         const marker = new mapboxgl.Marker({ color: "red", draggable: false })
             .setLngLat(defaultLocation)
             .addTo(map);
+
+        console.log(defaultLocation)
 
         let userMovedMap = false; // Track if user manually moves the map
         map.on("move", () => {
             userMovedMap = true;
         });
-        
+
 
         // Connect to Flask WebSocket
         const socket = io.connect("http://localhost:5000");
