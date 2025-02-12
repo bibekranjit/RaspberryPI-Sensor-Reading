@@ -1,0 +1,17 @@
+Sl.No.,Feature,Explaination
+1,timestamp,"represents the time at which the data was recorded, usually in a format like YYYY-MM-DD HH:MM:SS"
+2,accX,Acceleration along the X-axis (forward/backward motion).
+3,accY, Acceleration along the Y-axis (left/right motion)
+4,accZ,Acceleration along the Z-axis (up/down motion).
+5,gyroX, Rotation around the X-axis (pitch – forward/backward tilt).
+6,gyroY,Rotation around the Y-axis (roll – left/right tilt).
+7,gyroZ,Rotation around the Z-axis (yaw – rotation on the vertical axis)
+8,latitude,represents the geographical latitude of the device at the time the data was recorded. Latitude measures the distance north or south of the equator and is typically given in degrees
+9,longitude,represents the geographical longitude of the device at the time the data was recorded.
+10,altitude,represents the elevation above sea level where the device is located.
+The accelerometer measures acceleration (change in velocity) in three-dimensional space,,
+The gyroscope measures angular velocity (the rate of rotation) around each axis. The values are typically in °/s (degrees per second) and indicate how fast the device is rotating in space,,
+,,
+,,
+,,
+,,
