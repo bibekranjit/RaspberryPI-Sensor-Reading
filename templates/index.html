@@ -1,0 +1,210 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Sensor Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+</head>
+<body>
+    <h2>Live Sensor Data</h2>
+    
+    <h3>Accelerometer</h3>
+    <canvas id="accelChart"></canvas>
+
+    <h3>Gyroscope</h3>
+    <canvas id="gyroChart"></canvas>
+
+    <h3>Live Location</h3>
+    <div id="map" style="width: 100%; height: 500px;"></div>
+
+    <script>
+        const socket = io.connect("http://localhost:5000");
+
+        let map, marker;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), { center: { lat: 0, lng: 0 }, zoom: 15 });
+            marker = new google.maps.Marker({ position: { lat: 0, lng: 0 }, map: map, title: "Current Location" });
+        }
+
+        socket.on("sensor_data", function (data) {
+            console.log(data);
+            
+            // Update accelerometer chart
+            accelChart.data.labels.push(new Date().toLocaleTimeString());
+            accelChart.data.datasets[0].data.push(data.acceleration.x);
+            accelChart.data.datasets[1].data.push(data.acceleration.y);
+            accelChart.data.datasets[2].data.push(data.acceleration.z);
+            if (accelChart.data.labels.length > 20) {
+                accelChart.data.labels.shift();
+                accelChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+            accelChart.update();
+
+            // Update gyroscope chart
+            gyroChart.data.labels.push(new Date().toLocaleTimeString());
+            gyroChart.data.datasets[0].data.push(data.gyroscope.x);
+            gyroChart.data.datasets[1].data.push(data.gyroscope.y);
+            gyroChart.data.datasets[2].data.push(data.gyroscope.z);
+            if (gyroChart.data.labels.length > 20) {
+                gyroChart.data.labels.shift();
+                gyroChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+            gyroChart.update();
+
+            // Update location on map
+            const newPosition = { lat: parseFloat(data.location.lat), lng: parseFloat(data.location.lon) };
+            marker.setPosition(newPosition);
+            map.setCenter(newPosition);
+        });
+
+        const ctx1 = document.getElementById('accelChart').getContext('2d');
+        const accelChart = new Chart(ctx1, {
+            type: 'line',
+            data: { labels: [], datasets: [
+                { label: 'AccX', data: [], borderColor: 'red', fill: false },
+                { label: 'AccY', data: [], borderColor: 'green', fill: false },
+                { label: 'AccZ', data: [], borderColor: 'blue', fill: false }
+            ] },
+            options: { responsive: true }
+        });
+
+        const ctx2 = document.getElementById('gyroChart').getContext('2d');
+        const gyroChart = new Chart(ctx2, {
+            type: 'line',
+            data: { labels: [], datasets: [
+                { label: 'GyroX', data: [], borderColor: 'purple', fill: false },
+                { label: 'GyroY', data: [], borderColor: 'orange', fill: false },
+                { label: 'GyroZ', data: [], borderColor: 'pink', fill: false }
+            ] },
+            options: { responsive: true }
+        });
+
+        initMap();
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Sensor Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .chart-container {
+            width: 90%;
+            max-width: 800px; /* Keep charts properly sized */
+            margin: auto;
+            padding: 10px;
+        }
+        canvas {
+            width: 100% !important; 
+            height: 250px !important; /* Reduce height while keeping proportions */
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Live Sensor Data</h2>
+
+    <div class="chart-container">
+        <h3>Accelerometer</h3>
+        <canvas id="accelChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Gyroscope</h3>
+        <canvas id="gyroChart"></canvas>
+    </div>
+
+    <h3>Live Location</h3>
+    <div id="map"></div>
+
+    <script>
+        const socket = io.connect("http://localhost:5000");
+
+        let map, marker;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), { center: { lat: 0, lng: 0 }, zoom: 15 });
+            marker = new google.maps.Marker({ position: { lat: 0, lng: 0 }, map: map, title: "Current Location" });
+        }
+
+        socket.on("sensor_data", function (data) {
+            console.log(data);
+            
+            // Update accelerometer chart
+            accelChart.data.labels.push(new Date().toLocaleTimeString());
+            accelChart.data.datasets[0].data.push(data.acceleration.x);
+            accelChart.data.datasets[1].data.push(data.acceleration.y);
+            accelChart.data.datasets[2].data.push(data.acceleration.z);
+            if (accelChart.data.labels.length > 20) {
+                accelChart.data.labels.shift();
+                accelChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+            accelChart.update();
+
+            // Update gyroscope chart
+            gyroChart.data.labels.push(new Date().toLocaleTimeString());
+            gyroChart.data.datasets[0].data.push(data.gyroscope.x);
+            gyroChart.data.datasets[1].data.push(data.gyroscope.y);
+            gyroChart.data.datasets[2].data.push(data.gyroscope.z);
+            if (gyroChart.data.labels.length > 20) {
+                gyroChart.data.labels.shift();
+                gyroChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+            gyroChart.update();
+
+            // Update location on map
+            const newPosition = { lat: parseFloat(data.location.lat), lng: parseFloat(data.location.lon) };
+            marker.setPosition(newPosition);
+            map.setCenter(newPosition);
+        });
+
+        const ctx1 = document.getElementById('accelChart').getContext('2d');
+        const accelChart = new Chart(ctx1, {
+            type: 'line',
+            data: { labels: [], datasets: [
+                { label: 'AccX', data: [], borderColor: 'red', fill: false },
+                { label: 'AccY', data: [], borderColor: 'green', fill: false },
+                { label: 'AccZ', data: [], borderColor: 'blue', fill: false }
+            ] },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { y: { beginAtZero: true } } 
+            }
+        });
+
+        const ctx2 = document.getElementById('gyroChart').getContext('2d');
+        const gyroChart = new Chart(ctx2, {
+            type: 'line',
+            data: { labels: [], datasets: [
+                { label: 'GyroX', data: [], borderColor: 'purple', fill: false },
+                { label: 'GyroY', data: [], borderColor: 'orange', fill: false },
+                { label: 'GyroZ', data: [], borderColor: 'pink', fill: false }
+            ] },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { y: { beginAtZero: true } } 
+            }
+        });
+
+        initMap();
+    </script>
+</body>
+</html>
