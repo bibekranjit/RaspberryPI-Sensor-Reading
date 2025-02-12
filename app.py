@@ -67,16 +67,6 @@ def fetch_and_stream_phyphox_data():
         time.sleep(1)  # Fetch data every 1 second
 
 
-# Flask Route to Serve Latest Data as JSON
-@app.route("/get_latest_data")
-def get_latest_data():
-    try:
-        df = pd.read_csv(CSV_FILE)
-        latest_data = df.iloc[-1].to_dict()
-        return jsonify(latest_data)
-    except Exception as e:
-        return jsonify({"error": "No data available", "details": str(e)})
-    
 # Flask Route to Serve Web Interface
 @app.route("/")
 def index():
